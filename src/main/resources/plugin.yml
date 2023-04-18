@@ -1,6 +1,6 @@
 main: com.alazeprt.APRandomTeleport
 name: APRandomTeleport
-version: 2.0-PRE-1
+version: 2.0-PRE-2
 api-version: 1.13
 description: A random teleport plugin
 author: alazeprt

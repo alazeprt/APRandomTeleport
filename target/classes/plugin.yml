@@ -1,6 +1,6 @@
 main: com.alazeprt.APRandomTeleport
 name: APRandomTeleport
-version: 2.0
+version: 2.0-PRE-2
 api-version: 1.13
 description: A random teleport plugin
 author: alazeprt
@@ -26,6 +26,9 @@ permissions:
   aprtp.bypass:
     description: Can skip random teleport cooldown time
     default: op
+  aprtp.forceplayer:
+    description: Use /rtp player Command
+    default: op
   aprtp.player:
     description: Contains basic permissions
     children:
@@ -39,6 +42,7 @@ permissions:
       aprtp.world.*: true
       aprtp.command.reload: true
       aprtp.bypass: true
+      aprtp.forceplayer: true
   aprtp.*:
     description: Have all permissions
     default: op

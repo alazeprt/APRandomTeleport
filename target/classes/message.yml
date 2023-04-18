@@ -10,9 +10,11 @@ rtp_failed: "&c在 {number} 次尝试中未找到安全的位置, 随机传送�
 rtp_successful: "&a随机传送成功!"
 in_cooldown: "&c你需要在 {number} 秒后才能进行随机传送!"
 config_error: "&c配置项 limit_y 中有配置项错误!已使用插件默认设置!"
+unknown_player: "&c未知的玩家 {name} !"
 help:
   - "&a-- APRandomTeleport 帮助文档 --"
   - "&6/rtp  &c- 在所在世界进行随机传送"
   - "&6/rtp help  &c- 查看APRandomTeleport帮助文档"
   - "&6/rtp reload  &c- 重新加载APRandomTeleport的配置文件及语言文件"
   - "&6/rtp world <世界名称>  &c- 在指定的世界进行随机传送"
+  - "&6/rtp player <玩家名称> [世界名称]  &c- 如果世界名称为空则在执行指令的玩家所在的世界进行传送, 否则则在世界名称的世界里传送"
