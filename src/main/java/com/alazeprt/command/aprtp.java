@@ -9,23 +9,22 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.alazeprt.method.rtp.executeRTP;
 import static com.alazeprt.method.cfg.reload;
+import static com.alazeprt.method.rtp.executeRTP;
 
 public class aprtp implements CommandExecutor, TabCompleter {
-   private FileConfiguration message = YamlConfiguration.loadConfiguration(new File(com.alazeprt.APRandomTeleport.getProvidingPlugin(com.alazeprt.APRandomTeleport.class).getDataFolder(), "message.yml"));
+   private final FileConfiguration message = YamlConfiguration.loadConfiguration(new File(com.alazeprt.APRandomTeleport.getProvidingPlugin(com.alazeprt.APRandomTeleport.class).getDataFolder(), "message.yml"));
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, String[] strings) {
         if(strings.length == 0){
             if(commandSender.hasPermission("aprtp.use")){
-                Thread thread = new Thread(() -> {
-                    executeRTP(commandSender, null);
-                }, "APThread-2");
+                Thread thread = new Thread(() -> executeRTP(commandSender, null), "APThread-2");
                 thread.start();
             } else{
                 commandSender.sendMessage(getFormatMessage("no_permission"));
@@ -74,6 +73,12 @@ public class aprtp implements CommandExecutor, TabCompleter {
                 }
             } else if(strings[0].equals("player")){
                 commandSender.sendMessage(getFormatMessage("wrong_usage"));
+            } else if(strings[0].equals("version")){
+                if(commandSender.hasPermission("aprtp.command.version")){
+                    commandSender.sendMessage(getFormatMessage("version").replace("{version}", "2.0-PRE-2"));
+                } else{
+                    commandSender.sendMessage(getFormatMessage("no_permission"));
+                }
             } else{
                 if(commandSender.hasPermission("aprtp.use")){
                     commandSender.sendMessage(getFormatMessage("wrong_usage"));
@@ -87,9 +92,7 @@ public class aprtp implements CommandExecutor, TabCompleter {
                     commandSender.sendMessage(getFormatMessage("unknown_world").replace("{name}", strings[1]));
                 } else {
                     if(commandSender.hasPermission("aprtp.world." +strings[1]) || commandSender.hasPermission("aprtp.world.*")){
-                        Thread thread = new Thread(() -> {
-                            executeRTP(commandSender, Bukkit.getWorld(strings[1]));
-                        }, "APThread-2");
+                        Thread thread = new Thread(() -> executeRTP(commandSender, Bukkit.getWorld(strings[1])), "APThread-2");
                         thread.start();
                     } else{
                         commandSender.sendMessage(getFormatMessage("no_permission"));
@@ -130,9 +133,7 @@ public class aprtp implements CommandExecutor, TabCompleter {
                     if(hasWorld){
                         for(Player player : Bukkit.getOnlinePlayers()){
                             if(player.getName().equals(strings[1])){
-                                Thread thread = new Thread(() -> {
-                                    executeRTP(player, Bukkit.getWorld(strings[2]));
-                                }, "APThread-2");
+                                Thread thread = new Thread(() -> executeRTP(player, Bukkit.getWorld(strings[2])), "APThread-2");
                                 thread.start();
                                 return false;
                             }
@@ -158,7 +159,7 @@ public class aprtp implements CommandExecutor, TabCompleter {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> list = new ArrayList<>();
         if(command.getName().equalsIgnoreCase("rtp")){
             int length = args.length;

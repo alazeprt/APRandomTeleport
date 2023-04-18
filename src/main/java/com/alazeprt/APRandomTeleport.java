@@ -13,19 +13,17 @@ import java.util.logging.Level;
 public class APRandomTeleport extends JavaPlugin implements CommandExecutor {
     public static Map<Player, Integer> cooldown = new HashMap<>();
     public static Map<Player, Boolean> onTeleport = new HashMap<>();
-    Thread cooldownThread = new Thread(() -> {
-        Bukkit.getScheduler().runTaskTimer(this, () -> {
-            if(!(cooldown == null)){
-                for (Map.Entry<Player, Integer> entry : cooldown.entrySet()) {
-                    Player key = entry.getKey();
-                    Integer value = entry.getValue();
-                    if(!(value <= 0)){
-                        cooldown.replace(key, value-1);
-                    }
+    Thread cooldownThread = new Thread(() -> Bukkit.getScheduler().runTaskTimer(this, () -> {
+        if(!(cooldown == null)){
+            for (Map.Entry<Player, Integer> entry : cooldown.entrySet()) {
+                Player key = entry.getKey();
+                Integer value = entry.getValue();
+                if(!(value <= 0)){
+                    cooldown.replace(key, value-1);
                 }
             }
-        }, 0L, 20L);
-    }, "APThread-2");
+        }
+    }, 0L, 20L), "APThread-2");
     @Override
     public void onEnable() {
         File messageFile = new File(getDataFolder(), "message.yml");

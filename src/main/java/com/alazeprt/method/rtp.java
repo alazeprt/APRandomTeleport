@@ -15,9 +15,9 @@ import static com.alazeprt.APRandomTeleport.cooldown;
 import static com.alazeprt.APRandomTeleport.onTeleport;
 
 public class rtp {
-    private static JavaPlugin plugin = com.alazeprt.APRandomTeleport.getPlugin(com.alazeprt.APRandomTeleport.class);
-    private static FileConfiguration message = YamlConfiguration.loadConfiguration(new File(com.alazeprt.APRandomTeleport.getProvidingPlugin(com.alazeprt.APRandomTeleport.class).getDataFolder(), "message.yml"));
-    private static FileConfiguration config = YamlConfiguration.loadConfiguration(new File(com.alazeprt.APRandomTeleport.getProvidingPlugin(com.alazeprt.APRandomTeleport.class).getDataFolder(), "config.yml"));
+    private static final JavaPlugin plugin = com.alazeprt.APRandomTeleport.getPlugin(com.alazeprt.APRandomTeleport.class);
+    private static final FileConfiguration message = YamlConfiguration.loadConfiguration(new File(com.alazeprt.APRandomTeleport.getProvidingPlugin(com.alazeprt.APRandomTeleport.class).getDataFolder(), "message.yml"));
+    private static final FileConfiguration config = YamlConfiguration.loadConfiguration(new File(com.alazeprt.APRandomTeleport.getProvidingPlugin(com.alazeprt.APRandomTeleport.class).getDataFolder(), "config.yml"));
     public static boolean executeRTP(CommandSender commandSender, World world){
         if(commandSender.getName().equalsIgnoreCase("CONSOLE")){
             commandSender.sendMessage(getFormatMessage("terminal"));
@@ -45,9 +45,7 @@ public class rtp {
                     return false;
                 } else {
                     long delay = config.getInt("delay") * 20L;
-                    Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                        player.teleport(location);
-                    }, delay);
+                    Bukkit.getScheduler().runTaskLater(plugin, () -> player.teleport(location), delay);
                     player.sendMessage(getFormatMessage("rtp_successful"));
                     cooldown.put(player, config.getInt("cooldown"));
                     onTeleport.put(player, false);
@@ -73,9 +71,7 @@ public class rtp {
                         return false;
                     } else {
                         long delay = config.getInt("delay") * 20L;
-                        Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                            player.teleport(location);
-                        }, delay);
+                        Bukkit.getScheduler().runTaskLater(plugin, () -> player.teleport(location), delay);
                         player.sendMessage(getFormatMessage("rtp_successful"));
                         cooldown.put(player, config.getInt("cooldown"));
                         onTeleport.put(player, false);
@@ -96,9 +92,7 @@ public class rtp {
                     return false;
                 } else {
                     long delay = config.getInt("delay") * 20L;
-                    Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                        player.teleport(location);
-                    }, delay);
+                    Bukkit.getScheduler().runTaskLater(plugin, () -> player.teleport(location), delay);
                     player.sendMessage(getFormatMessage("rtp_successful"));
                     cooldown.put(player, config.getInt("cooldown"));
                     onTeleport.put(player, false);

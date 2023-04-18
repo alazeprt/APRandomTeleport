@@ -34,6 +34,9 @@ permissions:
     children:
       aprtp.use: true
       aprtp.command.help: true
+  aprtp.command.version:
+    description: Use /rtp version Command
+    default: op
   aprtp.admin:
     description: Have all permissions
     default: op
@@ -43,6 +46,7 @@ permissions:
       aprtp.command.reload: true
       aprtp.bypass: true
       aprtp.forceplayer: true
+      aprtp.command.version: true
   aprtp.*:
     description: Have all permissions
     default: op

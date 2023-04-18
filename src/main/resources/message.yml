@@ -11,6 +11,7 @@ rtp_successful: "&a随机传送成功!"
 in_cooldown: "&c你需要在 {number} 秒后才能进行随机传送!"
 config_error: "&c配置项 limit_y 中有配置项错误!已使用插件默认设置!"
 unknown_player: "&c未知的玩家 {name} !"
+version: "&a插件版本为: {version}"
 help:
   - "&a-- APRandomTeleport 帮助文档 --"
   - "&6/rtp  &c- 在所在世界进行随机传送"
