@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -71,6 +72,8 @@ public class aprtp implements CommandExecutor, TabCompleter {
                 } else{
                     commandSender.sendMessage(getFormatMessage("no_permission"));
                 }
+            } else if(strings[0].equals("player")){
+                commandSender.sendMessage(getFormatMessage("wrong_usage"));
             } else{
                 if(commandSender.hasPermission("aprtp.use")){
                     commandSender.sendMessage(getFormatMessage("wrong_usage"));
@@ -92,12 +95,57 @@ public class aprtp implements CommandExecutor, TabCompleter {
                         commandSender.sendMessage(getFormatMessage("no_permission"));
                     }
                 }
+            } else if(strings[0].equals("player")){
+                if(commandSender.hasPermission("aprtp.forceplayer")){
+                    for(Player player : Bukkit.getOnlinePlayers()){
+                        if(player.getName().equals(strings[1])){
+                            Thread thread = new Thread(() -> {
+                                Player player1 = (Player) commandSender;
+                                executeRTP(player, player1.getWorld());
+                            }, "APThread-2");
+                            thread.start();
+                            return false;
+                        }
+                    }
+                    commandSender.sendMessage(getFormatMessage("unknown_player").replace("{name}", strings[1]));
+                } else{
+                    commandSender.sendMessage(getFormatMessage("no_permission"));
+                }
             } else{
                 if(commandSender.hasPermission("aprtp.use")){
                     commandSender.sendMessage(getFormatMessage("wrong_usage"));
                 } else{
                     commandSender.sendMessage(getFormatMessage("no_permission"));
                 }
+            }
+        } else if(strings.length == 3){
+            if(strings[0].equals("player")){
+                if(commandSender.hasPermission("aprtp.forceplayer")){
+                    boolean hasWorld = false;
+                    for(World world : Bukkit.getWorlds()){
+                        if(world.getName().equals(strings[2])){
+                            hasWorld = true;
+                        }
+                    }
+                    if(hasWorld){
+                        for(Player player : Bukkit.getOnlinePlayers()){
+                            if(player.getName().equals(strings[1])){
+                                Thread thread = new Thread(() -> {
+                                    executeRTP(player, Bukkit.getWorld(strings[2]));
+                                }, "APThread-2");
+                                thread.start();
+                                return false;
+                            }
+                        }
+                        commandSender.sendMessage(getFormatMessage("unknown_player").replace("{name}", strings[1]));
+                    } else{
+                        commandSender.sendMessage(getFormatMessage("unknown_world").replace("{name}", strings[2]));
+                    }
+                } else{
+                    commandSender.sendMessage(getFormatMessage("no_permission"));
+                }
+            } else{
+                commandSender.sendMessage("wrong_usage");
             }
         } else{
             if(commandSender.hasPermission("aprtp.use")){
